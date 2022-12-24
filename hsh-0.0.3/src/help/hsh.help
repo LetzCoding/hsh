@@ -1,0 +1,7 @@
+#HSH help - hsh#
+	#Hsh# is a command for running files writtened in HSH language.
+	If you are looking for the intro for HSH, please enter help intro.
+	#Usage: hsh [script]#
+	#script# is a file. HSH will run this file if it is entered. If you don't enter [script], a new HSH will be opened for you to use.
+	There is a file named "hello.hsh" for you to test this programme.
+Document writer: Hangco
