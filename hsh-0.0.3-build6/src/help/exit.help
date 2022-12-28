@@ -1,0 +1,5 @@
+#HSH help - exit#
+	It is a basic command in HSH for the command #exit#.
+	#Usage: exit [return value]#
+	#return value# is an integer, if you enter a string, it will return 0. It will natrually return 0 if you don't enter the return value too.
+Document writer: Hangco
