@@ -1,0 +1,26 @@
+// a+b.hsh -- The 'a+b' problem in HSH
+// written by Hangco
+
+// input
+newvar
+echo Input A
+inputvar
+newvar
+echo Input B
+inputvar
+newvar
+// calculate
+v+v 0 1
+// output
+echo A+B=
+iechovar 2
+// delete the var
+ctrlvar 2
+delvar
+ctrlvar 1
+delvar
+ctrlvar 0
+delvar
+// exit
+exit 0
+

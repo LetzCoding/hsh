@@ -1,0 +1,9 @@
+newvar
+newvar
+ctrlvar 0
+cmodvar Hello,
+ctrlvar 1
+cmodvar world!
+cechovar 0
+cechovar
+exit 0

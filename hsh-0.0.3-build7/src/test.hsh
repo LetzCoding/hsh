@@ -1,0 +1,10 @@
+// test.hsh
+newvar
+cmodvar What? 
+cechovar
+cmodvar Hello? 
+cechovar
+inputvar
+cechovar
+delvar
+exit 0
