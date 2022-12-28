@@ -9,5 +9,4 @@ config: help/*
 	 rm -rf $(helpdir)
 	 mkdir $(helpdir)
 	 cp help/*.help $(helpdir)
-	 cp help/.help $(helpdir)
 	 cp gpl.txt $(hshdir)
