@@ -14,5 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: make install clean
-      run: cd hsh-0.0.2-bugfix1
-           make install clean
+      run: |
+          cd hsh-0.0.2-bugfix1
+          make install clean
