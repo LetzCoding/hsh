@@ -4,12 +4,12 @@
 ## 1. 下载存储库
 HSH的下载主要可以通过两种方式：使用GIT或者直接下载。
 
-### + 使用GIT获取软件源代码
+### · 使用GIT获取软件源代码
 如果需要使用GIT下载源代码，需要GIT软件。假设您已经拥有这款软件，请在**Bourne Shell或与其兼容的SHELL**中输入代码：
 `git clone https://github.com/LetzCoding/hsh.git`
 源代码将会被下载到您执行命令的地方的hsh目录中。
 
-### + 直接下载
+### · 直接下载
 如果需要直接下载源代码，请点击这个界面中“Code”按钮的**“Download ZIP”**选项。
 
 ## 2. 生成Makefile
