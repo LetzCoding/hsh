@@ -1,5 +1,5 @@
 #HSH指令帮助 - 介绍#
-#HSH 0.0.3 Build6#是最新的HSH版本，它采用了新技术，很多地方都改写了。
+#HSH 0.0.3 Build8#是最新的HSH版本。
 这个版本有这些命令：
 1. #exit# [returnval] 退出HSH |所有脚本结束时必须加上这个|
 2. #read# <filename> 阅读文件

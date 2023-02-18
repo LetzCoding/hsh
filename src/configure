@@ -1,0 +1,70 @@
+#!/bin/sh
+# configure tool
+echo "HSH Build 8 Makefile准备程序"
+
+echo "\n正在检测组件……"
+
+echo  "make……\c"
+cat << EOF > Makefile
+default:
+	@echo  "\c"
+
+EOF
+if make; then
+	rm -f Makefile
+	echo "正常"
+else
+	rm -f Makefile
+	echo "不正常"
+	echo "对不起，您没有make工具，无法编译HSH。"
+	exit 1
+fi
+
+cCompiler=""
+echo  "C语言编译器……\c"
+cat << EOF > testFile.c
+int main() {return 0;}
+EOF
+if gcc testFile.c -o a; then
+	rm -f a testFile.c
+	cCompiler="gcc"
+elif clang testFile.c -o a; then
+	rm -f a testFile.c
+	cCompiler="clang"
+else
+	rm testFile.c
+	echo "无"
+	echo "对不起，您没有GCC或者clang，无法编译HSH。"
+	exit 1
+fi
+echo "$cCompiler"
+
+echo "\n以下是即将生成的Makefile的设定："
+echo "C语言编译器：$cCompiler"
+echo
+
+echo  "正在生成Makefile……\c"
+cat << EOF > Makefile
+# 由configure生成的Makefile
+helpdir="/usr/share/hsh/help"
+hshdir="/usr/share/hsh"
+install:
+	make compile
+	make config
+compile: main.c
+	gcc main.c -g -static -o hsh
+config: ../help/*
+	rm -rf \$(hshdir)
+	mkdir \$(hshdir)
+	rm -rf \$(helpdir)
+	mkdir \$(helpdir)
+	cp ../help/*.help \$(helpdir)/
+	cp gpl.txt \$(hshdir)/
+help:
+	@echo "sudo make install：编译并拷贝必需文件"
+	@echo "make compile：编译文件"
+	@echo "sudo make config：拷贝必须文件"
+	@echo "make help：查看编译的帮助"
+EOF
+echo "完成！"
+echo "请使用sudo make进行编译，make help查看编译的帮助。"

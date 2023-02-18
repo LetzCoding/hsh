@@ -55,8 +55,11 @@ int hsh_help(char *arg) {
 	printf("HSH帮助%s, HDOC 0.2。", "0.0.1");
 	char *hcmd=malloc(512);
 	memset(hcmd, '\0', 512);
-	if(arg==NULL) scanf("%s", hcmd);
-	else { strcpy(hcmd, arg); putchar('\n'); }
+	strcpy(hcmd, arg); putchar('\n');
+	if(!strcmp(hcmd, "")) {
+		printf("用法：help <命令名>，help intro显示命令列表。\n");
+		return 1;
+	}
 	char *hrcmd=malloc(512);
 	memset(hrcmd, '\0', 512);
 	strcpy(hrcmd, "/usr/share/hsh/help/");
@@ -64,7 +67,7 @@ int hsh_help(char *arg) {
 	strcat(hrcmd, ".help");
 	FILE *file=fopen(hrcmd, "r");
 	if(file==NULL) {
-		printf("文件未找到：%s。请检查是否输入正确。\n", hrcmd);
+		printf("对不起，暂无此命令的帮助。\n");
 		return 1;
 	}
 	if(strcmp(hrcmd, "/usr/share/hsh/help/.help")==0) {
