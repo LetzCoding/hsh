@@ -1,10 +1,10 @@
 // test.hsh
-newvar
-cmodvar What? 
-cechovar
-cmodvar Hello? 
-cechovar
-inputvar
-cechovar
-delvar
-exit 0
+newvar // new variable
+cmodvar What? // it is set to 'What?'
+cechovar // output it
+cmodvar Hello? // it is set to 'Hello?'
+cechovar // echo the var
+inputvar // input the var
+cechovar // echo the var
+delvar // delete it
+exit 0 // !!

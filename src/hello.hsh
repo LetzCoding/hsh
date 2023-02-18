@@ -1,4 +1,4 @@
 // hello.hsh: hsh test program
-echo Hello, world!
-exit 0
+echo Hello, world! // echo msg
+exit 0 // IMPORTANT: EXIT PROGRAM OR SEGMENTATION ERROR WILL HAPPEN!!
 

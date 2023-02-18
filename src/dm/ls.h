@@ -1,7 +1,10 @@
-int ls(char *arg) {
+int ls(char *shellDir, char *arg) {
+	char *dirName=malloc(512);
+	memset(dirName, '\0', 512);
+	strcpy(dirName, shellDir);
 	DIR *dir;
 	struct dirent *dp;
-	if(!strcmp(arg, "")) dir=opendir(".");
+	if(!strcmp(arg, "")) dir=opendir(dirName);
 	else {
 			dir = opendir(arg);
 	}

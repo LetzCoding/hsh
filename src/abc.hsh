@@ -1,9 +1,9 @@
-newvar
-newvar
-ctrlvar 0
-cmodvar Hello,
-ctrlvar 1
-cmodvar world!
-cechovar 0
-cechovar
-exit 0
+newvar // new variable
+newvar // new variable, now controlling this
+ctrlvar 0 // control the first variable
+cmodvar Hello, // change the content
+ctrlvar 1 // change the controlling variable
+cmodvar world! // change the content
+cechovar 0 // echo the first var
+cechovar // echo the second var
+exit 0 // ok

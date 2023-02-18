@@ -1,10 +1,15 @@
-int hsh_read(char *arg) {
+int hsh_read(char *dir, char *arg) {
 	if((strcmp(arg, "")==1)||(arg==NULL)) {
 		printf("read: 需要参数。\n");
 		return 1;
 	}
 	else {
-		FILE *file=fopen(arg, "r");
+		char *fileAddr=malloc(512);
+		memset(fileAddr, '\0', 512);
+		strcpy(fileAddr, dir);
+		strcat(fileAddr, "/");
+		strcat(fileAddr, arg);
+		FILE *file=fopen(fileAddr, "r");
 		if(file==NULL) {
 			printf("错误：文件未找到。\n");
 			return 1;

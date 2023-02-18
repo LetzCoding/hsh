@@ -9,7 +9,7 @@
 #define logo "\033[35m                                       \n\
     HHHH   HHHH  SSSSSS  HHHH   HHHH   \n\
      HH     HH  SS     S  HH     HH    \n\
-     HHHHHHHHH   SSSS     HH@@@@@HH    \n\
+     HHHHHHHHH   SSSS     HHHHHHHHH    \n\
      HH     HH      SSS   HH     HH    \n\
      HH     HH  S     SS  HH     HH    \n\
     HHHH   HHHH  SSSSSS  HHHH   HHHH   \n\
@@ -23,7 +23,7 @@ void showver() {
 	printf("这个软件是基于GPL3的开源软件，要查看完整的GPL文档，请输入showGPL。\n");
 }
 void showGPL() {
-	hsh_read("/usr/share/hsh/gpl.txt");
+	hsh_read("", "/usr/share/hsh/gpl.txt");
 }
 bool isstrblank(char *arg) {
 	return (arg[0]=='\0')?1:0;
@@ -44,13 +44,16 @@ int hshcmd(FILE *infile) {
 	char inputed='\0';
 	int line=0;
 	int rtnum=0;
+	char *dir=malloc(512);
+	memset(dir, '\0', 512);
+	strcpy(dir, "/");
 	int opvar=-1; // 正在操作的变量
 	if(usestdin) printf("HSH %s。如需帮助请输入help intro。\n", VERSION);
 	while(1) {
 		__fpurge(stdin);
 		__fpurge(stdout);
 		memset(cmd, '\0', 512);
-		if(usestdin) printf("HSH> \033[32m");
+		if(usestdin) printf("%s HSH> \033[32m", dir);
 		// 将文件内容读入内存
 		for(int i=0; ; i++) {
 			inputed=fgetc(infile);
@@ -75,6 +78,16 @@ int hshcmd(FILE *infile) {
 		for(int i=0; i<strlen(cmd); i++) {
 			cmd[i]=tolower(cmd[i]);
 		}
+		if(cmd[0]=='\t') { // 这一行被忽略：是注释
+			continue;
+		}
+		for(int i=0; i<strlen(arg); i++) {
+			if(arg[i]=='/') {
+				if(arg[i+1]=='/') {
+					arg[i]='\0';
+				}
+			}
+		}
 		//printf("<%s> [%s]\n", cmd, arg);
 		if(!strcmp(cmd, "exit")) {
 			if(!strcmp(arg, "")) {
@@ -93,7 +106,12 @@ int hshcmd(FILE *infile) {
 			int returnval=0;
 			if(!strcmp(arg, "")) returnval=hshcmd(stdin);
 			else {
-				FILE *nfile=fopen(arg, "r");
+				char *x=malloc(512);
+				memset(x, '\0', 512);
+				strcpy(x, dir);
+				strcat(x, "/");
+				strcat(x, arg);
+				FILE *nfile=fopen(x, "r");
 				if(nfile==NULL) {
 					printf("文件未找到。\n");
 					continue;
@@ -119,10 +137,10 @@ int hshcmd(FILE *infile) {
 			printf("\033[2J\033[114514A");
 		}
 		else if(!strcmp(cmd, "ls")) {
-			ls(arg);
+			ls(dir, arg);
 		}
 		else if(!strcmp(cmd, "read")) {
-			hsh_read(arg);
+			hsh_read(dir, arg);
 		}
 		else if(!strcmp(cmd, "newvar")) {
 			opvar=newvar();
@@ -242,6 +260,9 @@ int hshcmd(FILE *infile) {
 		else if(!strcmp(cmd, "showgpl")) {
 			showGPL();
 		}
+		else if(!strcmp(cmd, "cd")) {
+			dm_cd(dir, arg);
+		}
 		else if(!strcmp(cmd, "//"));
 		else {
 			if(!strcmp(cmd, "")) continue;
@@ -261,7 +282,7 @@ int main(int argc, char *argv[]) {
 				strcpy(opened, argv[i]);
 				FILE *file=fopen(opened, "r");
 				if(file==NULL) {
-					printf("\033[31mHSH在初始化遭遇错误：文件“%s”未找到。\n\033[0m", opened);
+					printf("\033[31mHSH在初始化时遭遇错误：文件“%s”未找到。\n\033[0m", opened);
 					return -1;
 				}
 				int rt;

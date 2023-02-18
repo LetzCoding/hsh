@@ -2,25 +2,27 @@
 // written by Hangco
 
 // input
-newvar
-echo Input A
-inputvar
-newvar
-echo Input B
-inputvar
-newvar
+newvar // create a new variable
+echo Input A // let the user input
+inputvar // input
+newvar // create variable B
+echo Input B // let the user input variable B
+inputvar // input
+newvar // create the variable for calculating
 // calculate
-v+v 0 1
+v+v 0 1 // it is as same as the following C sentence:
+		// var[2]=var[0]+var[1];
+		// there are also commands called v-v, v*v, v/v
 // output
-echo A+B=
-iechovar 2
+echo A+B= // echo the info of the following value
+iechovar 2 // value of the variable
 // delete the var
-ctrlvar 2
-delvar
+ctrlvar 2 // change the var controlling
+delvar // delete it
 ctrlvar 1
 delvar
 ctrlvar 0
 delvar
 // exit
-exit 0
+exit 0 // IMPORTANT!!
 
