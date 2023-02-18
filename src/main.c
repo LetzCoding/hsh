@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <ctype.h>
-#define VERSION "0.0.3 build 7"
+#define VERSION "0.0.3 build 8"
 #define logo "\033[35m                                       \n\
     HHHH   HHHH  SSSSSS  HHHH   HHHH   \n\
      HH     HH  SS     S  HH     HH    \n\
@@ -13,7 +13,7 @@
      HH     HH      SSS   HH     HH    \n\
      HH     HH  S     SS  HH     HH    \n\
     HHHH   HHHH  SSSSSS  HHHH   HHHH   \n\
-              \033[32m0.0.3 \033[36mBuild 7\033[35m            \n\033[0m"
+              \033[32m0.0.3 \033[36mBuild 8\033[35m            \n\033[0m"
 #include "dm/dm.c"
 #include "../help/help.c"
 #include "varman.c"
