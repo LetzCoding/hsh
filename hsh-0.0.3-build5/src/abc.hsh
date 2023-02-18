@@ -1,9 +1,0 @@
-newvar
-newvar
-ctrlvar 0
-modvar Hello,
-ctrlvar 1
-modvar world!
-echovar 0
-echovar
-exit 0

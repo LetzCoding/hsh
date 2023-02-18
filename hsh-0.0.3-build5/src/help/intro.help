@@ -1,8 +1,0 @@
-#HSH help - intro#
-	HSH is both a computer language and a shell. It has these commands:
-	1. hsh        ---- see "help hsh"
-	2. exit       ---- see "help exit"
-	3. help       ---- help commandname
-	4. //         ---- It has no use
-    5. echo       ---- echo string
-	You can use them to make some programmes. Use "hsh programname" to execute it.
