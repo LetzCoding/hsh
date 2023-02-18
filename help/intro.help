@@ -1,0 +1,14 @@
+#HSH指令帮助 - 介绍#
+#HSH 0.0.3 Build6#是最新的HSH版本，它采用了新技术，很多地方都改写了。
+这个版本有这些命令：
+1. #exit# [returnval] 退出HSH |所有脚本结束时必须加上这个|
+2. #read# <filename> 阅读文件
+3. #ls# [directory] 查看目录内容
+4. #help# <command> 查看帮助
+5. #newvar/delvar/inputvar/cechovar [varnum]/cmodvar <newval>/ctrlvar <varnum># 字符串变量管理
+6. #iechovar [varnum]/imodvar <newval>/*var# 整数变量管理，它的变量和字符串变量的编号是重叠的。
+   (比如您先newvar了，您可以用这个变量同时作为字符串变量和整数变量)
+7. #echo# <字符串> 显示立即字符串（字符串变量要用cechovar [varnum]，整数变量要用iechovar [varnum]）
+8. #hsh# [文件名] 使用嵌套式HSH执行HSH脚本
+9. #version# 显示版本和logo
+10. #showgpl# 显示GPL协议
