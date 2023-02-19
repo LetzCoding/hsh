@@ -5,7 +5,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <ctype.h>
-#define VERSION "0.0.3 build 8"
+#include "userspec.h" // 自定义文件
+#include "config.c" // configure HSH
+#define VERSION "0.0.3 build 9 update 1"
 #define logo "\033[35m                                       \n\
     HHHH   HHHH  SSSSSS  HHHH   HHHH   \n\
      HH     HH  SS     S  HH     HH    \n\
@@ -13,17 +15,18 @@
      HH     HH      SSS   HH     HH    \n\
      HH     HH  S     SS  HH     HH    \n\
     HHHH   HHHH  SSSSSS  HHHH   HHHH   \n\
-              \033[32m0.0.3 \033[36mBuild 8\033[35m            \n\033[0m"
+              \033[32m0.0.3 \033[36mBuild 9\033[35m            \n\033[0m\
+                update \033[32m1\033[0m"
 #include "dm/dm.c"
 #include "../help/help.c"
 #include "varman.c"
 void showver() {
 	printf("%s\n", logo);
-	printf("\033[32mHSH %s\033[0m, \033[36m版权所有©Hangco, 2022\033[0m。\n", VERSION);
+	printf("\033[32mHSH %s\033[0m, \033[36m版权所有©Hangco, 2023\033[0m。\n", VERSION);
 	printf("这个软件是基于GPL3的开源软件，要查看完整的GPL文档，请输入showGPL。\n");
 }
 void showGPL() {
-	hsh_read("", "/usr/share/hsh/gpl.txt");
+	hsh_read("", GPLADDR);
 }
 bool isstrblank(char *arg) {
 	return (arg[0]=='\0')?1:0;
@@ -34,10 +37,22 @@ int hshcmd(FILE *infile) {
 	if(usestdin) printf("正在启动HSH...\n");
 	//int setvbuf(FILE *stream, char *buf, int mode, size_t size);
 	if(setvbuf(infile, NULL, _IONBF, 0)) {
-		printf("\033[31m流设置失败。\033[0m\n");
+		fprintf(stderr, "\033[31m流设置失败。\033[0m\n");
 		return 1;
 	}
 	if(usestdin) if(setvbuf(stdout, NULL, _IONBF, 0)) { printf("\033[31m流设置失败。\033[0m\n"); return 1; }
+	bool showdir=1;
+	// read config
+	FILE *f=fopen(CONFIGADDR, "r"); // open .config file
+	char config[1024];
+	for(int i=0; i<1024; i++) {
+		config[i]=fgetc(f);
+	}
+	fclose(f); // reading complete
+	// showdir?
+	if(config[0]=='1') showdir=1;
+	else showdir=0;
+
 	char *cmd; char *arg=NULL;
 	cmd=malloc(512); 
 	memset(cmd, '\0', 512); 
@@ -46,14 +61,17 @@ int hshcmd(FILE *infile) {
 	int rtnum=0;
 	char *dir=malloc(512);
 	memset(dir, '\0', 512);
-	strcpy(dir, "/");
+	strcpy(dir, HSHDIR);
 	int opvar=-1; // 正在操作的变量
 	if(usestdin) printf("HSH %s。如需帮助请输入help intro。\n", VERSION);
 	while(1) {
 		__fpurge(stdin);
 		__fpurge(stdout);
 		memset(cmd, '\0', 512);
-		if(usestdin) printf("%s HSH> \033[32m", dir);
+		if(usestdin) {
+			if(showdir) printf("\033[34m%s \033[0m", dir);
+			printf("HSH> \033[32m");
+		}
 		// 将文件内容读入内存
 		for(int i=0; ; i++) {
 			inputed=fgetc(infile);
@@ -262,6 +280,12 @@ int hshcmd(FILE *infile) {
 		}
 		else if(!strcmp(cmd, "cd")) {
 			dm_cd(dir, arg);
+		}
+		else if(!strcmp(cmd, "pwd")) {
+			printf("%s", dir);
+		}
+		else if(!strcmp(cmd, "config")) {
+			hsh_config(arg);
 		}
 		else if(!strcmp(cmd, "//"));
 		else {

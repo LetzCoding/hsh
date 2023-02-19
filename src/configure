@@ -1,13 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 # configure tool
-echo "HSH Build 8 Makefile准备程序"
+echo -e "HSH Build 8 Makefile准备程序"
 
-echo "\n正在检测组件……"
+echo -e "\n正在检测组件……"
 
-echo  "make……\c"
+echo -e "make……\c"
 cat << EOF > Makefile
 default:
-	@echo  "\c"
+	@echo -e  "\c"
 
 EOF
 if make; then
@@ -21,7 +21,7 @@ else
 fi
 
 cCompiler=""
-echo  "C语言编译器……\c"
+echo -e  "C语言编译器……\c"
 cat << EOF > testFile.c
 int main() {return 0;}
 EOF
@@ -33,38 +33,71 @@ elif clang testFile.c -o a; then
 	cCompiler="clang"
 else
 	rm testFile.c
-	echo "无"
-	echo "对不起，您没有GCC或者clang，无法编译HSH。"
+	echo -e "无"
+	echo -e "对不起，您没有GCC或者clang，无法编译HSH。"
 	exit 1
 fi
 echo "$cCompiler"
 
-echo "\n以下是即将生成的Makefile的设定："
+echo -e "您需要在哪里安装HSH的数据并设定为HSH的“主目录”？（默认：$HOME/.hsh）"
+echo -e "请输入（\033[31m不要\033[0m以“/”结尾）: \c"
+hshdir=""
+read -ei "$HOME/.hsh" hshdir
+gpladdr=$hshdir"/gpl.txt"
+helpdir=$hshdir"/help/"
+sampledir=$hshdir"/samples/"
+configadr=$hshdir"/config"
+
+echo -e "\n以下是即将生成的Makefile的设定："
 echo "C语言编译器：$cCompiler"
+echo "HSH安装位置：$hshdir"
 echo
 
-echo  "正在生成Makefile……\c"
+echo -e "正在生成用户指定的源代码……\c"
+cat << EOF > userspec.h
+// userspec.h: configure工具自动生成的HSH源代码
+#define HSHDIR "$hshdir"
+#define GPLADDR "$gpladdr"
+#define HELPDIR "$helpdir"
+#define CONFIGADDR "$configadr"
+
+EOF
+echo "完成！"
+
+echo -e "正在生成Makefile……\c"
 cat << EOF > Makefile
 # 由configure生成的Makefile
-helpdir="/usr/share/hsh/help"
-hshdir="/usr/share/hsh"
+helpdir="$helpdir"
+hshdir="$hshdir"
+sampledir="$sampledir"
+configadr="$configadr"
+CC="$cCompiler"
 install:
 	make compile
 	make config
-compile: main.c
-	gcc main.c -g -static -o hsh
+	make gencfg
+compile: main.c userspec.h
+	\$(CC) main.c -g -static -o hsh
 config: ../help/*
 	rm -rf \$(hshdir)
 	mkdir \$(hshdir)
 	rm -rf \$(helpdir)
 	mkdir \$(helpdir)
+	rm -rf \$(sampledir)
+	mkdir \$(sampledir)
 	cp ../help/*.help \$(helpdir)/
 	cp gpl.txt \$(hshdir)/
+	cp ../samples/* \$(sampledir)/
+gencfg:
+	\$(CC) genFile.c -o genFile
+	./genFile
+	rm -f genFile
+	mv config.skel \$(configadr)
 help:
-	@echo "sudo make install：编译并拷贝必需文件"
+	@echo "make install：编译并拷贝必需文件"
 	@echo "make compile：编译文件"
 	@echo "sudo make config：拷贝必须文件"
 	@echo "make help：查看编译的帮助"
 EOF
 echo "完成！"
-echo "请使用sudo make进行编译，make help查看编译的帮助。"
+echo "请使用make进行编译，make help查看编译的帮助。"
