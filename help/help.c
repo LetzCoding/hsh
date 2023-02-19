@@ -1,35 +1,35 @@
 // 已经include了。。。
 int hdoc(FILE *file) {
-	char c='\0', *buf=malloc(512);
+	char c='\0', buf;
 	bool isdown = false, isreverse=false, ishl=false;
 	for(int i=0; ; i++) {
-		memset(buf, '\0', 512);
+		buf=0;
 		c=fgetc(file);
 		if(c==EOF) return 0;
-		buf[i]=c;
+		buf=c;
 		if(c=='\\') {
 			if(isdown) printf("\033[4m%c\033[0m", (c=fgetc(file)));
 			if(isreverse) printf("\033[7m%c\033[0m", (c=fgetc(file)));
 			else putchar(c=fgetc(file));
 		}
 		else {
-			if(buf[i]=='_'&&isdown==false) {
+			if(buf=='_'&&isdown==false) {
 				printf("\033[4m");
 				isdown=true;
 			}
-			else if(buf[i]=='_'&&isdown==true) {
+			else if(buf=='_'&&isdown==true) {
 				printf("\033[0m");
 				isdown=false;
 			}
-			else if(buf[i]=='|'&&isreverse==false) {
+			else if(buf=='|'&&isreverse==false) {
 				printf("\033[7m");
 				isreverse=true;
 			}
-			else if(buf[i]=='|'&&isreverse==true) {
+			else if(buf=='|'&&isreverse==true) {
 				printf("\033[0m");
 				isreverse=false;
 			}
-			else if(buf[i]=='#') {
+			else if(buf=='#') {
 				if(ishl) {
 					ishl=false;
 					printf("\033[0m");
@@ -62,7 +62,7 @@ int hsh_help(char *arg) {
 	}
 	char *hrcmd=malloc(512);
 	memset(hrcmd, '\0', 512);
-	strcpy(hrcmd, "/usr/share/hsh/help/");
+	strcpy(hrcmd, HELPDIR);
 	strcat(hrcmd, hcmd);
 	strcat(hrcmd, ".help");
 	FILE *file=fopen(hrcmd, "r");

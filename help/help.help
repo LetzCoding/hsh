@@ -1,0 +1,4 @@
+#HSH指令帮助 - help#
+#help#是HSH指令帮助的命令。它使用HDOC来进行文件浏览。它的用法是help <cmd>。
+您可以使用#help intro#查看所有命令。
+

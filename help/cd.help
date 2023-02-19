@@ -1,0 +1,13 @@
+#HSH指令帮助 - cd#
+#cd#可以切换工作目录。它的格式是cd <directory>。
+#它的使用效果是这样：#
+/ HSH> #cd home#
+//home HSH> #ls#
+hangco
+//home HSH> #cd hangco#
+//home/hangco HSH> #cd .#
+//home/hangco HSH> #cd ..#
+//home HSH> #cd ..#
+/ HSH> #exit#
+文档编写：Hangco
+

@@ -1,0 +1,14 @@
+// 9.hsh: a program created by Hangco
+newvar
+echo Please enter an integer.
+inputvar
+echo Please enter another integer.
+newvar
+inputvar
+iechovar 0
+echo +
+iechovar 1
+echo =
+echo ⑨
+exit 0 // 必须加上这个！！！！！！！！！！！！！否则就会segv fault!
+

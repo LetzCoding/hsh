@@ -1,0 +1,5 @@
+#HSH指令帮助 - read#
+#read#指令可以使用HSH#翻页器#阅读文件。它的格式是这样：#read# <filename>。
+<filename>是读取的#文件名#
+read命令首次出现于HSH 0.0.2 Bugfix 1。它经历过1次大型升级。
+
