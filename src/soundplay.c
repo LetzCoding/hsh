@@ -34,7 +34,7 @@ int soundplay(char *arg) {
 	// create stream
 	if(!(s=pa_simple_new(NULL, "hsh_soundplay", PA_STREAM_PLAYBACK, NULL, "playback", &ss, NULL, NULL, &error))) {
 		printf("\033[31m错误\033[0m: pa_simple_new()失败（错误码%s）。\n", pa_strerror(error));
-		return 3;
+		goto finish;
 	}
 	for(;;) {
 		uint8_t buf[1024];
@@ -43,7 +43,7 @@ int soundplay(char *arg) {
 	pa_usec_t latency;
 	if((latency=pa_simple_get_latency(s, &error))==(pa_usec_t)-1) {
 		printf("\033[31m错误：pa_simple_get_latency()失败（错误码%s）。\n", pa_strerror(error));
-		return 3;
+		goto finish;
 	}
 	printf("%0.0f usec	\r", (float)latency);
 #endif
@@ -54,17 +54,17 @@ int soundplay(char *arg) {
 			break;
 		}
 		printf("\033[31m错误\033[0m: 文件读取失败。\n");
-		return 2;
+		goto finish;
 	}
 	// 播放！！
 	if((pa_simple_write(s, buf, (size_t)r, &error))<0) {
 		printf("\033[31m错误\033[0m: 音频输出失败。\n");
-		return 3;
+		goto finish;
 	}
 	}
 	if(pa_simple_drain(s, &error)<0) {
 		printf("\033[31m错误\033[0m: pa_simple_drain()失败。\n");
-		return 3;
+		goto finish;
 	}
 	ret=0;
 finish:

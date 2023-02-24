@@ -48,9 +48,25 @@ helpdir=$hshdir"/help/"
 sampledir=$hshdir"/samples/"
 configadr=$hshdir"/config"
 
+echo -e "是否使用soundplay功能（实验性）？(默认：不用) 请输入y或者n。"
+echo -e "请输入y/n：\c"
+useSplay=""
+splaytype=1
+read -ei "n" useSplay
+if [ useSplay != "y" ]; then
+	echo "不使用。"
+	splaytype=0
+fi
+
 echo -e "\n以下是即将生成的Makefile的设定："
-echo "C语言编译器：$cCompiler"
-echo "HSH安装位置：$hshdir"
+echo "C语言编译器：      $cCompiler"
+echo "HSH安装位置：      $hshdir"
+echo -e "是否使用soundplay：\c"
+if [ splaytype = 1 ]; then
+	echo "是"
+else
+	echo "否"
+fi
 echo
 
 echo -e "正在生成用户指定的源代码……\c"
@@ -60,8 +76,14 @@ cat << EOF > userspec.h
 #define GPLADDR "$gpladdr"
 #define HELPDIR "$helpdir"
 #define CONFIGADDR "$configadr"
-
 EOF
+if [ splaytype = 1 ]; then
+	cat << EOF >> userspec.h
+#include "soundplay.c"
+#define USE_SOUNDPLAY ""
+EOF
+fi
+echo "" >> userspec.h
 echo "完成！"
 
 echo -e "正在生成Makefile……\c"

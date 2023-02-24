@@ -20,7 +20,6 @@
 #include "dm/dm.c"
 #include "../help/help.c"
 #include "varman.c"
-#include "soundplay.c"
 void showver() {
 	printf("%s\n", logo);
 	printf("\033[32mHSH %s\033[0m, \033[36m版权所有©Hangco, 2023\033[0m。\n", VERSION);
@@ -288,9 +287,11 @@ int hshcmd(FILE *infile) {
 		else if(!strcmp(cmd, "config")) {
 			hsh_config(arg);
 		}
+#ifdef USE_SOUNDPLAY
 		else if(!strcmp(cmd, "soundplay")) {
 			soundplay(arg);
 		}
+#endif
 		else if(!strcmp(cmd, "//"));
 		else {
 			if(!strcmp(cmd, "")) continue;
